@@ -15,7 +15,8 @@ android {
         consumerProguardFiles "consumer-rules.pro"
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-std=c++11 -frtti -fexceptions"
+                arguments '-DANDROID_STL=c++_shared', '-DOpenCV_DIR=OpenCV-android-sdk/sdk/native/jni', '-DANDROID_ARM_NEON=TRUE'
             }
         }
     }
