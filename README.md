@@ -1,10 +1,6 @@
 # DocumentRefiner
 
-## [English](README_EN.md) | 中文
-
-***目前优化了一套更高识别率的模型和算法，有意向合作的请联系邮箱：pqponet@gmail.com***
-
-从[SmartCropper](https://github.com/pqpo/SmartCamera) fork而来，主要优化以下几个点：
+从 [SmartCropper](https://github.com/pqpo/SmartCamera) fork而来，主要优化以下几个点：
 
 1. 拆分核心功能与UI功能。
 2. 边框识别算法优化，避免不必要的多次颜色转换。
