@@ -39,6 +39,8 @@ dependencies {
         because('kotlin-stdlib-jdk8 is now a part of kotlin-stdlib')
     }
     implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'androidx.activity:activity:1.10.1'
+    implementation 'androidx.navigation:navigation-fragment:2.9.0'
     implementation project(path: ':documentskewcorrection-core')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'

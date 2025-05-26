@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/main_navigation_root">
+
+    <fragment
+        android:id="@+id/main_navigation_root"
+        android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.MainRootFragment"
+        tools:layout="@layout/fragment_main_root" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/pca_navigation_image"-->
+<!--        android:name="com.superace.updf.features.create.PDFCreateAdvancedImageFragment"-->
+<!--        tools:layout="@layout/fragment_pdf_create_advanced_image" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/pca_navigation_crop"-->
+<!--        android:name="com.superace.updf.features.create.PDFCreateAdvancedRefineFragment"-->
+<!--        tools:layout="@layout/fragment_pdf_create_advanced_refine" />-->
+</navigation>
