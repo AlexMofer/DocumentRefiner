@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentrefiner.core;
+package io.github.alexmofer.documentskewcorrection.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,13 +10,13 @@ import android.net.Uri;
  * 位图处理算法已被外部代理
  * Created by Alex on 2025/5/20.
  */
-public final class DocumentDetectorDelegated extends DocumentDetector {
+public final class DocumentSkewDetectorDelegated extends DocumentSkewDetector {
 
-    private DocumentDetectorDelegated(long nativePrt, int width, int height) {
+    private DocumentSkewDetectorDelegated(long nativePrt, int width, int height) {
         super(nativePrt, width, height);
     }
 
-    private static native long DR_DocumentDetectorDelegated_create(Object image);
+    private static native long DR_DocumentSkewDetectorDelegated_create(Object image);
 
     /**
      * 构建器
@@ -34,7 +34,7 @@ public final class DocumentDetectorDelegated extends DocumentDetector {
         /**
          * 设置位图
          *
-         * @param image        文档图片，必须为 RGB_565 格式，DocumentDetectorDelegated 不对位图持有。
+         * @param image        文档图片，必须为 RGB_565 格式，DocumentSkewDetectorDelegated 不对位图持有。
          * @param recycleImage 构建后是否主动销毁位图
          * @return 构建器
          */
@@ -95,7 +95,7 @@ public final class DocumentDetectorDelegated extends DocumentDetector {
          * @return 文档矫正器
          * @throws Exception 失败信息
          */
-        public DocumentDetectorDelegated build() throws Exception {
+        public DocumentSkewDetectorDelegated build() throws Exception {
             if (mImage == null) {
                 throw new Exception("Image is null.");
             }
@@ -106,12 +106,12 @@ public final class DocumentDetectorDelegated extends DocumentDetector {
                 // 请使用 RGB_565 格式
                 throw new Exception("Image is not RGB_565.");
             }
-            final long nativePrt = DR_DocumentDetectorDelegated_create(mImage);
+            final long nativePrt = DR_DocumentSkewDetectorDelegated_create(mImage);
             if (nativePrt == 0) {
                 throw new Exception("Create fail.");
             }
             try {
-                return new DocumentDetectorDelegated(nativePrt, mImage.getWidth(), mImage.getHeight());
+                return new DocumentSkewDetectorDelegated(nativePrt, mImage.getWidth(), mImage.getHeight());
             } finally {
                 if (mRecycleImage) {
                     mImage.recycle();

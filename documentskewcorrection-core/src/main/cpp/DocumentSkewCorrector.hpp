@@ -2,20 +2,20 @@
 // Created by Alex on 2025/5/20.
 //
 
-#ifndef DOCUMENTREFINER_DOCUMENTREFINER_HPP
-#define DOCUMENTREFINER_DOCUMENTREFINER_HPP
+#ifndef DOCUMENTSKEWCORRECTION_DOCUMENTSKEWCORRECTOR_HPP
+#define DOCUMENTSKEWCORRECTION_DOCUMENTSKEWCORRECTOR_HPP
 
 #include <opencv2/core/mat.hpp>
 #include <opencv2/imgproc.hpp>
 
 namespace DR {
 
-    class DocumentRefiner {
+    class DocumentSkewCorrector {
 
     public:
-        DocumentRefiner() = default;
+        DocumentSkewCorrector() = default;
 
-        virtual ~DocumentRefiner() = default;
+        virtual ~DocumentSkewCorrector() = default;
 
         /**
          * 校正输出
@@ -30,11 +30,11 @@ namespace DR {
          * @param dst 输出图
          * @return 检测成功时返回true
          */
-        virtual void refine(float ltx, float lty, float rtx, float rty,
+        virtual void correct(float ltx, float lty, float rtx, float rty,
                             float lbx, float lby, float rbx, float rby, cv::Mat dst) const = 0;
 
     protected:
-        static void refine(const cv::Mat &src, cv::Mat dst,
+        static void correct(const cv::Mat &src, cv::Mat dst,
                            float ltx, float lty, float rtx, float rty,
                            float lbx, float lby, float rbx, float rby) {
             std::vector<cv::Point2f> srcRect;
@@ -53,4 +53,4 @@ namespace DR {
     };
 }
 
-#endif //DOCUMENTREFINER_DOCUMENTREFINER_HPP
+#endif //DOCUMENTSKEWCORRECTION_DOCUMENTSKEWCORRECTOR_HPP

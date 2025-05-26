@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentrefiner.core;
+package io.github.alexmofer.documentskewcorrection.core;
 
 import androidx.annotation.Nullable;
 
@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
  * 文档探测器
  * Created by Alex on 2025/5/20.
  */
-public abstract class DocumentDetector {
+public abstract class DocumentSkewDetector {
 
     protected static final float MAX_SIZE = 500f;// 图片最大尺寸
     private final long mNativePrt;
@@ -14,7 +14,7 @@ public abstract class DocumentDetector {
     private final int mImageHeight;
     private boolean mReleased = false;
 
-    protected DocumentDetector(long nativePrt, int width, int height) {
+    protected DocumentSkewDetector(long nativePrt, int width, int height) {
         mNativePrt = nativePrt;
         mImageWidth = width;
         mImageHeight = height;
@@ -28,7 +28,7 @@ public abstract class DocumentDetector {
             return;
         }
         mReleased = true;
-        DR_DocumentDetector_release(mNativePrt);
+        DR_DocumentSkewDetector_release(mNativePrt);
     }
 
     /**
@@ -60,13 +60,13 @@ public abstract class DocumentDetector {
             return null;
         }
         final int[] points = new int[8];
-        if (DR_DocumentDetector_detect(mNativePrt, points)) {
+        if (DR_DocumentSkewDetector_detect(mNativePrt, points)) {
             return points;
         }
         return null;
     }
 
-    private native void DR_DocumentDetector_release(long nativePrt);
+    private native void DR_DocumentSkewDetector_release(long nativePrt);
 
-    private native boolean DR_DocumentDetector_detect(long nativePrt, int[] points);
+    private native boolean DR_DocumentSkewDetector_detect(long nativePrt, int[] points);
 }

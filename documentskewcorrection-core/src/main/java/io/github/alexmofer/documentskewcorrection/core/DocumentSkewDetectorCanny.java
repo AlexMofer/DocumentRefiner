@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentrefiner.core;
+package io.github.alexmofer.documentskewcorrection.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,13 +10,13 @@ import android.net.Uri;
  * 由于运算过程存在多次转换，因此不建议使用过大的位图
  * Created by Alex on 2025/5/20.
  */
-public final class DocumentDetectorCanny extends DocumentDetector {
+public final class DocumentSkewDetectorCanny extends DocumentSkewDetector {
 
-    private DocumentDetectorCanny(long nativePrt, int width, int height) {
+    private DocumentSkewDetectorCanny(long nativePrt, int width, int height) {
         super(nativePrt, width, height);
     }
 
-    private static native long DR_DocumentDetectorCanny_create(Object image);
+    private static native long DR_DocumentSkewDetectorCanny_create(Object image);
 
     /**
      * 构建器
@@ -34,7 +34,7 @@ public final class DocumentDetectorCanny extends DocumentDetector {
         /**
          * 设置位图
          *
-         * @param image        文档图片，必须为 RGB_565 格式，DocumentDetectorCanny 不对位图持有。
+         * @param image        文档图片，必须为 RGB_565 格式，DocumentSkewDetectorCanny 不对位图持有。
          * @param recycleImage 构建后是否主动销毁位图
          * @return 构建器
          */
@@ -95,7 +95,7 @@ public final class DocumentDetectorCanny extends DocumentDetector {
          * @return 文档矫正器
          * @throws Exception 失败信息
          */
-        public DocumentDetectorCanny build() throws Exception {
+        public DocumentSkewDetectorCanny build() throws Exception {
             if (mImage == null) {
                 throw new Exception("Image is null.");
             }
@@ -106,12 +106,12 @@ public final class DocumentDetectorCanny extends DocumentDetector {
                 // 请使用 RGB_565 格式
                 throw new Exception("Image is not RGB_565.");
             }
-            final long nativePrt = DR_DocumentDetectorCanny_create(mImage);
+            final long nativePrt = DR_DocumentSkewDetectorCanny_create(mImage);
             if (nativePrt == 0) {
                 throw new Exception("Create fail.");
             }
             try {
-                return new DocumentDetectorCanny(nativePrt, mImage.getWidth(), mImage.getHeight());
+                return new DocumentSkewDetectorCanny(nativePrt, mImage.getWidth(), mImage.getHeight());
             } finally {
                 if (mRecycleImage) {
                     mImage.recycle();

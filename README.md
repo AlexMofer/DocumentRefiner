@@ -1,4 +1,4 @@
-# DocumentRefiner
+# DocumentSkewCorrection
 
 从 [SmartCropper](https://github.com/pqpo/SmartCamera) fork而来，主要优化以下几个点：
 

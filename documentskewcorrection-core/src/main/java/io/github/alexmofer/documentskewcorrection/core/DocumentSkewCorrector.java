@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentrefiner.core;
+package io.github.alexmofer.documentskewcorrection.core;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,20 +10,20 @@ import androidx.annotation.Nullable;
  * 文档校正器
  * Created by Alex on 2025/5/20.
  */
-public final class DocumentRefiner {
+public final class DocumentSkewCorrector {
 
     private final long mNativePrt;
     private final Bitmap mImage;
     private final boolean mRecycleImage;
     private boolean mReleased = false;
 
-    private DocumentRefiner(long nativePrt, Bitmap image, boolean recycleImage) {
+    private DocumentSkewCorrector(long nativePrt, Bitmap image, boolean recycleImage) {
         mNativePrt = nativePrt;
         mImage = image;
         mRecycleImage = recycleImage;
     }
 
-    private static native long DR_DocumentRefiner_create(Object image);
+    private static native long DR_DocumentSkewCorrector_create(Object image);
 
     /**
      * 释放
@@ -33,7 +33,7 @@ public final class DocumentRefiner {
             return;
         }
         mReleased = true;
-        DR_DocumentRefiner_release(mNativePrt, mImage);
+        DR_DocumentSkewCorrector_release(mNativePrt, mImage);
         if (mRecycleImage) {
             mImage.recycle();
         }
@@ -71,7 +71,7 @@ public final class DocumentRefiner {
      * @return 校正后的位图，校正失败时返回空
      */
     @Nullable
-    public Bitmap refine(float ltx, float lty, float rtx, float rty,
+    public Bitmap correct(float ltx, float lty, float rtx, float rty,
                          float lbx, float lby, float rbx, float rby) {
         if (mReleased) {
             return null;
@@ -95,7 +95,7 @@ public final class DocumentRefiner {
         points[5] = lby;
         points[6] = rbx;
         points[7] = rby;
-        if (DR_DocumentRefiner_refine(mNativePrt, points, bitmap)) {
+        if (DR_DocumentSkewCorrector_correct(mNativePrt, points, bitmap)) {
             return bitmap;
         }
         bitmap.recycle();
@@ -112,9 +112,9 @@ public final class DocumentRefiner {
         }
     }
 
-    private native void DR_DocumentRefiner_release(long nativePrt, Object image);
+    private native void DR_DocumentSkewCorrector_release(long nativePrt, Object image);
 
-    private native boolean DR_DocumentRefiner_refine(long nativePrt, float[] points, Object image);
+    private native boolean DR_DocumentSkewCorrector_correct(long nativePrt, float[] points, Object image);
 
     /**
      * 构建器
@@ -133,7 +133,7 @@ public final class DocumentRefiner {
         /**
          * 设置位图
          *
-         * @param image        文档图片，必须为未预乘的 ARGB_8888 格式，DocumentRefiner 会对位图持有。
+         * @param image        文档图片，必须为未预乘的 ARGB_8888 格式，DocumentSkewCorrector 会对位图持有。
          * @param recycleImage 释放时是否主动销毁位图
          * @return 构建器
          */
@@ -182,7 +182,7 @@ public final class DocumentRefiner {
          * @return 文档矫正器
          * @throws Exception 失败信息
          */
-        public DocumentRefiner build() throws Exception {
+        public DocumentSkewCorrector build() throws Exception {
             if (mImage == null) {
                 throw new Exception("Image is null.");
             }
@@ -200,12 +200,12 @@ public final class DocumentRefiner {
                 // 位图格式错误
                 throw new Exception("Image is not ARGB_8888 or RGB_565.");
             }
-            final long nativePrt = DR_DocumentRefiner_create(mImage);
+            final long nativePrt = DR_DocumentSkewCorrector_create(mImage);
             if (nativePrt == 0) {
                 throw new Exception("Create fail.");
             }
             try {
-                return new DocumentRefiner(nativePrt, mImage, mRecycleImage);
+                return new DocumentSkewCorrector(nativePrt, mImage, mRecycleImage);
             } catch (Exception e) {
                 if (mRecycleImage) {
                     mImage.recycle();

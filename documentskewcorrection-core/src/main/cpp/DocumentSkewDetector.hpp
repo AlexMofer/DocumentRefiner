@@ -2,20 +2,20 @@
 // Created by Alex on 2025/5/20.
 //
 
-#ifndef DOCUMENTREFINER_DOCUMENTDETECTOR_HPP
-#define DOCUMENTREFINER_DOCUMENTDETECTOR_HPP
+#ifndef DOCUMENTSKEWCORRECTION_DOCUMENTSKEWDETECTOR_HPP
+#define DOCUMENTSKEWCORRECTION_DOCUMENTSKEWDETECTOR_HPP
 
 #include <opencv2/core/mat.hpp>
 #include <opencv2/imgproc.hpp>
 
 namespace DR {
 
-    class DocumentDetector {
+    class DocumentSkewDetector {
 
     public:
-        DocumentDetector() = default;
+        DocumentSkewDetector() = default;
 
-        virtual ~DocumentDetector() = default;
+        virtual ~DocumentSkewDetector() = default;
 
         /**
          * 检测边框
@@ -297,4 +297,4 @@ namespace DR {
     };
 }
 
-#endif //DOCUMENTREFINER_DOCUMENTDETECTOR_HPP
+#endif //DOCUMENTSKEWCORRECTION_DOCUMENTSKEWDETECTOR_HPP
