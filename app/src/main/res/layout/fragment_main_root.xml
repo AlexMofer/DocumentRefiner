@@ -11,6 +11,7 @@
         android:padding="32dp">
 
         <Button
+            android:id="@+id/fmr_v_core"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Core 功能 示范" />
