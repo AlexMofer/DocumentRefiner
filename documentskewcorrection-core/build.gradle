@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'io.github.alexmofer.documentrefiner.core'
+    namespace 'io.github.alexmofer.documentskewcorrection.core'
     compileSdk 36
     ndkVersion '28.1.13356709'
     buildToolsVersion '36.0.0'

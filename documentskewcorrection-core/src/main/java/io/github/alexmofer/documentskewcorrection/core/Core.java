@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentrefiner.core;
+package io.github.alexmofer.documentskewcorrection.core;
 
 import androidx.annotation.Nullable;
 

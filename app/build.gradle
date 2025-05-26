@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'io.github.alexmofer.app'
+    namespace 'io.github.alexmofer.documentskewcorrection.app'
     compileSdk 36
     ndkVersion '28.1.13356709'
     buildToolsVersion '36.0.0'
@@ -39,7 +39,7 @@ dependencies {
         because('kotlin-stdlib-jdk8 is now a part of kotlin-stdlib')
     }
     implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation project(path: ':documentrefiner-core')
+    implementation project(path: ':documentskewcorrection-core')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

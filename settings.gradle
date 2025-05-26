@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'DocumentRefiner'
+rootProject.name = 'DocumentSkewCorrection'
 include ':app'
-include ':documentrefiner-core'
+include ':documentskewcorrection-core'

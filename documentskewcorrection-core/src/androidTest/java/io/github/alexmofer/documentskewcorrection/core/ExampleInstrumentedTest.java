@@ -1,4 +1,4 @@
-package io.github.alexmofer.app;
+package io.github.alexmofer.documentskewcorrection.core;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("io.github.alexmofer.app", appContext.getPackageName());
+        assertEquals("io.github.alexmofer.documentrefiner.core.test", appContext.getPackageName());
     }
 }

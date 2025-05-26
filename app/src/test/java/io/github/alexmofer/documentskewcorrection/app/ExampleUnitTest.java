@@ -1,4 +1,4 @@
-package io.github.alexmofer.app;
+package io.github.alexmofer.documentskewcorrection.app;
 
 import org.junit.Test;
 
