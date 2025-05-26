@@ -85,7 +85,8 @@ public final class DocumentSkewCorrector {
         if (width <= 0 || height <= 0) {
             return null;
         }
-        final Bitmap bitmap = createOutput(width, height, mImage);
+        final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPremultiplied(false);
         final float[] points = new float[8];
         points[0] = ltx;
         points[1] = lty;
@@ -100,16 +101,6 @@ public final class DocumentSkewCorrector {
         }
         bitmap.recycle();
         return null;
-    }
-
-    private Bitmap createOutput(int width, int height, Bitmap src) {
-        if (src.getConfig() == Bitmap.Config.ARGB_8888) {
-            final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            bitmap.setPremultiplied(false);
-            return bitmap;
-        } else {
-            return Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        }
     }
 
     private native void DR_DocumentSkewCorrector_release(long nativePrt, Object image);
@@ -144,9 +135,13 @@ public final class DocumentSkewCorrector {
             if (image.isRecycled()) {
                 throw new RuntimeException("Image is recycled.");
             }
-            if (image.isPremultiplied() || image.getConfig() != Bitmap.Config.ARGB_8888) {
+            if (image.getConfig() != Bitmap.Config.ARGB_8888) {
                 // 请使用 ARGB_8888 格式
-                throw new RuntimeException("Image is premultiplied or not ARGB_8888.");
+                throw new RuntimeException("Image is not ARGB_8888.");
+            }
+            if (image.isPremultiplied()) {
+                // 请使用未预乘的 ARGB_8888 位图
+                throw new RuntimeException("Image is premultiplied.");
             }
             if (mImage != null) {
                 if (mRecycleImage) {
@@ -188,17 +183,6 @@ public final class DocumentSkewCorrector {
             }
             if (mImage.isRecycled()) {
                 throw new Exception("Image is recycled.");
-            }
-            if (mImage.getConfig() == Bitmap.Config.ARGB_8888) {
-                if (mImage.isPremultiplied()) {
-                    // 请使用为预乘的 ARGB_8888 格式
-                    throw new Exception("Image is premultiplied.");
-                }
-            }
-            if (mImage.getConfig() != Bitmap.Config.ARGB_8888
-                    && mImage.getConfig() == Bitmap.Config.RGB_565) {
-                // 位图格式错误
-                throw new Exception("Image is not ARGB_8888 or RGB_565.");
             }
             final long nativePrt = DR_DocumentSkewCorrector_create(mImage);
             if (nativePrt == 0) {

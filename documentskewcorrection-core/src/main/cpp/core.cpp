@@ -2,8 +2,7 @@
 #include <android/bitmap.h>
 #include "DocumentSkewDetectorCanny.hpp"
 #include "DocumentSkewDetectorDelegated.hpp"
-#include "DocumentSkewCorrectorRGBA.hpp"
-#include "DocumentSkewCorrectorRGB565.h"
+#include "DocumentSkewCorrector.hpp"
 
 static void DR_DocumentSkewDetector_release(JNIEnv */*env*/, jobject /*thiz*/, jlong native_prt) {
     delete ((DR::DocumentSkewDetectorCanny *) native_prt);
@@ -128,6 +127,24 @@ jint DR_DocumentSkewDetectorDelegated_RegisterNatives(JNIEnv *env) {
     return JNI_OK;
 }
 
+static jlong DR_DocumentSkewCorrector_create(JNIEnv *env, jclass /*clazz*/, jobject image) {
+    AndroidBitmapInfo info;
+    if (AndroidBitmap_getInfo(env, image, &info) != ANDROID_BITMAP_RESULT_SUCCESS) {
+        // 无法获取位图信息
+        return 0;
+    }
+    if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888) {
+        return 0;
+    }
+    void *pixels = nullptr;
+    if (AndroidBitmap_lockPixels(env, image, &pixels) != ANDROID_BITMAP_RESULT_SUCCESS) {
+        // 无法锁定像素
+        return 0;
+    }
+    auto created = new DR::DocumentSkewCorrector((int) info.width, (int) info.height, pixels);
+    return (jlong) created;
+}
+
 static void DR_DocumentSkewCorrector_release(JNIEnv *env, jobject /*thiz*/,
                                              jlong native_prt, jobject image) {
     delete ((DR::DocumentSkewCorrector *) native_prt);
@@ -137,13 +154,13 @@ static void DR_DocumentSkewCorrector_release(JNIEnv *env, jobject /*thiz*/,
 static jboolean DR_DocumentSkewCorrector_correct(JNIEnv *env, jobject /*thiz*/,
                                                  jlong native_prt, jfloatArray points,
                                                  jobject image) {
-    // 上层控制此处传入的是RGBA的位图（未预乘的 ANDROID_BITMAP_FORMAT_RGBA_8888 位图）
     AndroidBitmapInfo info;
     if (AndroidBitmap_getInfo(env, image, &info) != ANDROID_BITMAP_RESULT_SUCCESS) {
         // 无法获取位图信息
         return JNI_FALSE;
     }
     if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888) {
+        // 格式错误
         return JNI_FALSE;
     }
     void *pixels = nullptr;
@@ -151,41 +168,16 @@ static jboolean DR_DocumentSkewCorrector_correct(JNIEnv *env, jobject /*thiz*/,
         // 无法锁定像素
         return JNI_FALSE;
     }
-    cv::Mat RGBA = cv::Mat((int) info.height, (int) info.width, CV_8UC4, pixels);
     jfloat *ps = env->GetFloatArrayElements(points, JNI_FALSE);
-    ((DR::DocumentSkewCorrector *) native_prt)->correct(ps[0], ps[1], ps[2], ps[3], ps[4], ps[5],
-                                                        ps[6], ps[7], RGBA);
+    ((DR::DocumentSkewCorrector *) native_prt)->correct((int) info.width, (int) info.height, pixels,
+                                                        ps[0], ps[1], ps[2], ps[3], ps[4], ps[5],
+                                                        ps[6], ps[7]);
     env->ReleaseFloatArrayElements(points, ps, 0);
     if (AndroidBitmap_unlockPixels(env, image) != ANDROID_BITMAP_RESULT_SUCCESS) {
         // 解锁失败
         return JNI_FALSE;
     }
     return JNI_TRUE;
-}
-
-static jlong DR_DocumentSkewCorrector_create(JNIEnv *env, jclass /*clazz*/, jobject image) {
-    AndroidBitmapInfo info;
-    if (AndroidBitmap_getInfo(env, image, &info) != ANDROID_BITMAP_RESULT_SUCCESS) {
-        // 无法获取位图信息
-        return 0;
-    }
-    void *pixels = nullptr;
-    if (AndroidBitmap_lockPixels(env, image, &pixels) != ANDROID_BITMAP_RESULT_SUCCESS) {
-        // 无法锁定像素
-        return 0;
-    }
-    if (info.format == ANDROID_BITMAP_FORMAT_RGBA_8888) {
-        // 上层确保未预乘，否则透明度会出错
-        auto created = new DR::DocumentSkewCorrectorRGBA((int) info.width, (int) info.height,
-                                                         pixels);
-        return (jlong) created;
-    }
-    if (info.format == ANDROID_BITMAP_FORMAT_RGB_565) {
-        auto created = new DR::DocumentSkewCorrectorRGB565((int) info.width, (int) info.height,
-                                                           pixels);
-        return (jlong) created;
-    }
-    return 0;
 }
 
 jint DR_DocumentSkewCorrector_RegisterNatives(JNIEnv *env) {
@@ -195,9 +187,9 @@ jint DR_DocumentSkewCorrector_RegisterNatives(JNIEnv *env) {
         return JNI_ERR;
     }
     JNINativeMethod methods[] = {
+            {"DR_DocumentSkewCorrector_create",  "(Ljava/lang/Object;)J",    (void *) (DR_DocumentSkewCorrector_create)},
             {"DR_DocumentSkewCorrector_release", "(JLjava/lang/Object;)V",   (void *) (DR_DocumentSkewCorrector_release)},
-            {"DR_DocumentSkewCorrector_correct", "(J[FLjava/lang/Object;)Z", (void *) (DR_DocumentSkewCorrector_correct)},
-            {"DR_DocumentSkewCorrector_create",  "(Ljava/lang/Object;)J",    (void *) (DR_DocumentSkewCorrector_create)}
+            {"DR_DocumentSkewCorrector_correct", "(J[FLjava/lang/Object;)Z", (void *) (DR_DocumentSkewCorrector_correct)}
     };
     const jint result = env->RegisterNatives(clazz, methods, sizeof(methods) / sizeof(methods[0]));
     env->DeleteLocalRef(clazz);

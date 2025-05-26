@@ -13,12 +13,19 @@ namespace DR {
     class DocumentSkewCorrector {
 
     public:
-        DocumentSkewCorrector() = default;
+        DocumentSkewCorrector(int width, int height, void *pixels) {
+            mImage = cv::Mat(height, width, CV_8UC4, pixels);
+        };
 
-        virtual ~DocumentSkewCorrector() = default;
+        virtual ~DocumentSkewCorrector() {
+            mImage.release();
+        };
 
         /**
          * 校正输出
+         * @param width 位图宽
+         * @param height 位图高
+         * @param pixels 像素点
          * @param ltx 左上点X轴坐标
          * @param lty 左上点Y轴坐标
          * @param rtx 右上点X轴坐标
@@ -30,13 +37,10 @@ namespace DR {
          * @param dst 输出图
          * @return 检测成功时返回true
          */
-        virtual void correct(float ltx, float lty, float rtx, float rty,
-                            float lbx, float lby, float rbx, float rby, cv::Mat dst) const = 0;
-
-    protected:
-        static void correct(const cv::Mat &src, cv::Mat dst,
-                           float ltx, float lty, float rtx, float rty,
-                           float lbx, float lby, float rbx, float rby) {
+        void correct(int width, int height, void *pixels,
+                     float ltx, float lty, float rtx, float rty,
+                     float lbx, float lby, float rbx, float rby) const {
+            auto dst = cv::Mat(height, width, CV_8UC4, pixels);
             std::vector<cv::Point2f> srcRect;
             srcRect.emplace_back(ltx, lty);
             srcRect.emplace_back(rtx, rty);
@@ -47,9 +51,12 @@ namespace DR {
             dstRect.emplace_back(dst.cols, 0);
             dstRect.emplace_back(0, dst.rows);
             dstRect.emplace_back(dst.cols, dst.rows);
-            cv::warpPerspective(src, dst, cv::getPerspectiveTransform(srcRect, dstRect),
+            cv::warpPerspective(mImage, dst, cv::getPerspectiveTransform(srcRect, dstRect),
                                 dst.size());
         }
+
+    private:
+        cv::Mat mImage;
     };
 }
 
