@@ -16,11 +16,14 @@ import io.github.alexmofer.documentskewcorrection.core.DocumentSkewDetectorDeleg
 
 /**
  * 使用 tensorflow 代理 Canny 算法
+ * 速度快一些，但精度丢失明显，适合速度要求高于精度要求的识别场景。
  * Created by Alex on 2025/5/27.
  */
 public class DocumentSkewDetectorTensorflowBuilder extends DocumentSkewDetectorDelegated.Builder {
     private static Interpreter sDefaultInterpreter;
     private final Interpreter mInterpreter;
+    private Bitmap mImage;
+    private boolean mRecycleImage;
 
     public DocumentSkewDetectorTensorflowBuilder(Interpreter interpreter) {
         mInterpreter = interpreter;
@@ -61,49 +64,81 @@ public class DocumentSkewDetectorTensorflowBuilder extends DocumentSkewDetectorD
 
     @Override
     public DocumentSkewDetectorTensorflowBuilder setImage(Bitmap image, boolean recycleImage) {
-        // 该模型强制要求输入位图为256*256的位图，其他尺寸均报：java.lang.IllegalArgumentException: Cannot copy to a TensorFlowLite tensor (hed_input) with 786432 bytes from a Java Buffer with *** bytes.
-        final int width = 256;
-        final int height = 256;
-        final Bitmap scaled = Bitmap.createScaledBitmap(image, width, height, true);
-        // 创建像素值
-        final int[] pixels = new int[width * height];
-        // 读取位图像素值
-        scaled.getPixels(pixels, 0, width, 0, 0, width, height);
-        if (scaled != image) {
-            scaled.recycle();
+        if (image == null) {
+            throw new RuntimeException("Image is null.");
         }
-        // 创建输入
-        final ByteBuffer input = ByteBuffer.allocateDirect(width * height * 3 * Float.SIZE / Byte.SIZE);
-        input.order(ByteOrder.nativeOrder());
-        input.clear();
-        input.rewind();
-        // 写入输入
-        for (int pixel : pixels) {
-            input.putFloat(((pixel >> 16) & 0xFF));
-            input.putFloat(((pixel >> 8) & 0xFF));
-            input.putFloat((pixel & 0xFF));
+        if (image.isRecycled()) {
+            throw new RuntimeException("Image is recycled.");
         }
-        // 创建输出
-        final ByteBuffer output = ByteBuffer.allocateDirect(width * height * Float.SIZE / Byte.SIZE);
-        output.order(ByteOrder.nativeOrder());
-        output.clear();
-        // 处理
-        mInterpreter.run(input, output);
-        // 读取输出，并进行二值化
-        output.rewind();
-        for (int i = 0; i < pixels.length; i++) {
-            if (output.getFloat() > 0.2) {
-                pixels[i] = 0xFFFFFFFF;
-            } else {
-                pixels[i] = 0xFF000000;
+        if (mImage != null) {
+            if (mRecycleImage) {
+                mImage.recycle();
             }
         }
-        mImage = Bitmap.createBitmap(pixels, width, height, Bitmap.Config.RGB_565);
-        mRecycleImage = true;
-        if (recycleImage) {
-            image.recycle();
-        }
+        mImage = image;
+        mRecycleImage = recycleImage;
         return this;
+    }
+
+    @Override
+    public DocumentSkewDetectorDelegated build() throws Exception {
+        if (mImage == null) {
+            throw new Exception("Image is null.");
+        }
+        if (mImage.isRecycled()) {
+            throw new Exception("Image is recycled.");
+        }
+        try {
+            // 该模型强制要求输入位图为256*256的位图，其他尺寸均报：java.lang.IllegalArgumentException: Cannot copy to a TensorFlowLite tensor (hed_input) with 786432 bytes from a Java Buffer with *** bytes.
+            // 因此缺点也很明显：精度降低到256，且强行变形到256*256，输出要进行按比例变回去，其精度丢失明显大很多。
+            final int width = 256;
+            final int height = 256;
+            final Bitmap scaled = Bitmap.createScaledBitmap(mImage, width, height, true);
+            // 创建像素值
+            final int[] pixels = new int[width * height];
+            // 读取位图像素值
+            scaled.getPixels(pixels, 0, width, 0, 0, width, height);
+            if (scaled != mImage) {
+                scaled.recycle();
+            }
+            // 创建输入
+            final ByteBuffer input = ByteBuffer.allocateDirect(width * height * 3 * Float.SIZE / Byte.SIZE);
+            input.order(ByteOrder.nativeOrder());
+            input.clear();
+            input.rewind();
+            // 写入输入
+            for (int pixel : pixels) {
+                input.putFloat(((pixel >> 16) & 0xFF));
+                input.putFloat(((pixel >> 8) & 0xFF));
+                input.putFloat((pixel & 0xFF));
+            }
+            // 创建输出
+            final ByteBuffer output = ByteBuffer.allocateDirect(width * height * Float.SIZE / Byte.SIZE);
+            output.order(ByteOrder.nativeOrder());
+            output.clear();
+            // 处理
+            mInterpreter.run(input, output);
+            // 读取输出，并进行二值化
+            output.rewind();
+            final byte[] ps = new byte[width * height];
+            for (int i = 0; i < ps.length; i++) {
+                if (output.getFloat() > 0.2) {
+                    ps[i] = (byte) 255;
+                } else {
+                    ps[i] = 0;
+                }
+            }
+            mWidth = width;
+            mHeight = height;
+            mPixels = ps;
+            // 主动调用一下gc
+            System.gc();
+        } finally {
+            if (mRecycleImage) {
+                mImage.recycle();
+            }
+        }
+        return super.build();
     }
 
     /**

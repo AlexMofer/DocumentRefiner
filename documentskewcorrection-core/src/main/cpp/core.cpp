@@ -87,25 +87,8 @@ jint DR_DocumentSkewDetectorCanny_RegisterNatives(JNIEnv *env) {
 }
 
 static jlong DR_DocumentSkewDetectorDelegated_create(JNIEnv *env, jclass /*clazz*/,
-                                                     jobject image) {
-    // 上层控制此处传入的是BGR565的位图（ANDROID_BITMAP_FORMAT_RGB_565 位图）
-    AndroidBitmapInfo info;
-    if (AndroidBitmap_getInfo(env, image, &info) != ANDROID_BITMAP_RESULT_SUCCESS) {
-        // 无法获取位图信息
-        return 0;
-    }
-    if (info.format != ANDROID_BITMAP_FORMAT_RGB_565) {
-        // 格式错误，此处不做格式转换。因为终究要转为灰度图，因此为提高效率，此处强制要求传入无透明通道的位图
-        return 0;
-    }
-    void *pixels = nullptr;
-    if (AndroidBitmap_lockPixels(env, image, &pixels) != ANDROID_BITMAP_RESULT_SUCCESS) {
-        // 无法锁定像素
-        return 0;
-    }
-    auto created = new DR::DocumentSkewDetectorDelegated((int) info.width, (int) info.height,
-                                                         pixels);
-    AndroidBitmap_unlockPixels(env, image);
+                                                     jint width, jint height, jbyteArray pixels) {
+    auto created = new DR::DocumentSkewDetectorDelegated(env, width, height, pixels);
     return (jlong) created;
 }
 
@@ -116,7 +99,7 @@ jint DR_DocumentSkewDetectorDelegated_RegisterNatives(JNIEnv *env) {
         return JNI_ERR;
     }
     JNINativeMethod methods[] = {
-            {"DR_DocumentSkewDetectorDelegated_create", "(Ljava/lang/Object;)J",
+            {"DR_DocumentSkewDetectorDelegated_create", "(II[B)J",
              (void *) (DR_DocumentSkewDetectorDelegated_create)}
     };
     const jint result = env->RegisterNatives(clazz, methods, sizeof(methods) / sizeof(methods[0]));

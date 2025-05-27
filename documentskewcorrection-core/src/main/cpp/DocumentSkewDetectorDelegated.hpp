@@ -5,20 +5,28 @@
 #ifndef DOCUMENTSKEWCORRECTION_DOCUMENTSKEWDETECTORDELEGATED_HPP
 #define DOCUMENTSKEWCORRECTION_DOCUMENTSKEWDETECTORDELEGATED_HPP
 
+#include <jni.h>
 #include "DocumentSkewDetector.hpp"
 
 namespace DR {
     class DocumentSkewDetectorDelegated final : public DocumentSkewDetector {
 
     public:
-        explicit DocumentSkewDetectorDelegated(int width, int height, void *BGR565) {
-            cv::Mat image = cv::Mat(height, width, CV_8UC2, BGR565);
-            mImage = cv::Mat(height, width, CV_8UC1);
-            cv::cvtColor(image, mImage, cv::COLOR_BGR5652GRAY);
-            image.release();
+        explicit DocumentSkewDetectorDelegated(JNIEnv *env,
+                                               jint width, jint height, jbyteArray pixels) {
+            env->GetJavaVM(&vm);
+            mPixels = (jbyteArray) env->NewGlobalRef(pixels);
+            mData = env->GetByteArrayElements(mPixels, JNI_FALSE);
+            mImage = cv::Mat(height, width, CV_8UC1, mData);
         }
 
-        ~DocumentSkewDetectorDelegated() override { mImage.release(); }
+        ~DocumentSkewDetectorDelegated() override {
+            mImage.release();
+            JNIEnv *env = nullptr;
+            vm->GetEnv(reinterpret_cast<void **>(&env), JNI_VERSION_1_6);
+            env->ReleaseByteArrayElements(mPixels, mData, 0);
+            env->DeleteGlobalRef(mPixels);
+        }
 
         bool detect(int &ltx, int &lty, int &rtx, int &rty,
                     int &lbx, int &lby, int &rbx, int &rby) const override {
@@ -27,6 +35,9 @@ namespace DR {
 
     private:
         cv::Mat mImage;
+        JavaVM *vm;
+        jbyteArray mPixels;
+        jbyte *mData;
     };
 }
 
