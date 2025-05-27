@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import io.github.alexmofer.documentskewcorrection.app.activities.main.core.MainCoreFragment;
+import io.github.alexmofer.documentskewcorrection.app.activities.main.tensorflow.MainTensorflowFragment;
 import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainRootBinding;
 import io.github.alexmofer.documentskewcorrection.app.widgets.AvoidArea;
 
@@ -27,6 +28,7 @@ public class MainRootFragment extends Fragment {
                 FragmentMainRootBinding.inflate(getLayoutInflater(), container, false);
         AvoidArea.paddingAll(binding.fmrVContent);
         binding.fmrVCore.setOnClickListener(v -> MainCoreFragment.navigate(this));
+        binding.fmrVTensorflow.setOnClickListener(v -> MainTensorflowFragment.navigate(this));
         return binding.getRoot();
     }
 }

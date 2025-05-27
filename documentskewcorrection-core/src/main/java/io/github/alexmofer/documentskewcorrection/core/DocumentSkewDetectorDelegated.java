@@ -19,7 +19,10 @@ public final class DocumentSkewDetectorDelegated extends DocumentSkewDetector {
     /**
      * 构建器
      */
-    public static class Builder extends DocumentSkewDetector.Builder {
+    public static abstract class Builder extends DocumentSkewDetector.Builder {
+
+        protected Bitmap mImage;
+        protected boolean mRecycleImage;
 
         @Override
         public DocumentSkewDetectorDelegated build() throws Exception {
@@ -29,15 +32,11 @@ public final class DocumentSkewDetectorDelegated extends DocumentSkewDetector {
             if (mImage.isRecycled()) {
                 throw new Exception("Image is recycled.");
             }
-            if (mImage.getConfig() != Bitmap.Config.RGB_565) {
-                // 请使用 RGB_565 格式
-                throw new Exception("Image is not RGB_565.");
-            }
-            final long nativePrt = DR_DocumentSkewDetectorDelegated_create(mImage);
-            if (nativePrt == 0) {
-                throw new Exception("Create fail.");
-            }
             try {
+                final long nativePrt = DR_DocumentSkewDetectorDelegated_create(mImage);
+                if (nativePrt == 0) {
+                    throw new Exception("Create fail.");
+                }
                 return new DocumentSkewDetectorDelegated(nativePrt, mImage.getWidth(), mImage.getHeight());
             } finally {
                 if (mRecycleImage) {

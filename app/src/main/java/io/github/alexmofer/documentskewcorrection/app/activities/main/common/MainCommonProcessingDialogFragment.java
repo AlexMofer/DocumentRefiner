@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentskewcorrection.app.activities.main.core;
+package io.github.alexmofer.documentskewcorrection.app.activities.main.common;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -11,13 +11,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.LiveData;
+
+import io.github.alexmofer.android.support.utils.FragmentUtils;
 
 /**
  * 处理中
  * Created by Alex on 2025/5/26.
  */
-public class MainCoreProcessingDialogFragment extends DialogFragment {
+public class MainCommonProcessingDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
@@ -32,13 +34,18 @@ public class MainCoreProcessingDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        final MainCoreViewModel viewModel =
-                new ViewModelProvider(requireParentFragment()).get(MainCoreViewModel.class);
-        viewModel.getProcessing().observe(getViewLifecycleOwner(), value -> {
-            if (!Boolean.TRUE.equals(value)) {
-                dismiss();
-            }
-        });
+        final Callback callback = FragmentUtils.getCallback(this, Callback.class);
+        if (callback != null) {
+            callback.getProcessing().observe(getViewLifecycleOwner(), value -> {
+                if (!Boolean.TRUE.equals(value)) {
+                    dismiss();
+                }
+            });
+        }
         return new FrameLayout(requireContext());// 如果返回 null， getViewLifecycleOwner 会报错。
+    }
+
+    public interface Callback {
+        LiveData<Boolean> getProcessing();
     }
 }

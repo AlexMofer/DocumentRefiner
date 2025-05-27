@@ -21,6 +21,52 @@ public final class DocumentSkewDetectorCanny extends DocumentSkewDetector {
      */
     public static class Builder extends DocumentSkewDetector.Builder {
 
+        private final float mMaxSize;
+        private Bitmap mImage;
+        private boolean mRecycleImage;
+
+        public Builder(int maxSize) {
+            mMaxSize = maxSize;
+        }
+
+        public Builder() {
+            this(500);
+        }
+
+        @Override
+        public Builder setImage(Bitmap image, boolean recycleImage) {
+            if (image == null) {
+                throw new RuntimeException("Image is null.");
+            }
+            if (image.isRecycled()) {
+                throw new RuntimeException("Image is recycled.");
+            }
+            if (image.getConfig() != Bitmap.Config.RGB_565) {
+                // 请使用 RGB_565 格式
+                throw new RuntimeException("Image is not RGB_565.");
+            }
+            if (mImage != null) {
+                if (mRecycleImage) {
+                    mImage.recycle();
+                }
+            }
+            if (image.getWidth() < mMaxSize && image.getHeight() < mMaxSize) {
+                mImage = image;
+                mRecycleImage = recycleImage;
+                return this;
+            }
+            // 缩小位图到限定尺寸
+            final float scale = Math.min(mMaxSize / image.getWidth(), mMaxSize / image.getHeight());
+            mImage = Bitmap.createScaledBitmap(image,
+                    Math.round(scale * image.getWidth()),
+                    Math.round(scale * image.getHeight()), true);
+            mRecycleImage = true;
+            if (recycleImage) {
+                image.recycle();
+            }
+            return this;
+        }
+
         @Override
         public DocumentSkewDetectorCanny build() throws Exception {
             if (mImage == null) {
@@ -29,15 +75,11 @@ public final class DocumentSkewDetectorCanny extends DocumentSkewDetector {
             if (mImage.isRecycled()) {
                 throw new Exception("Image is recycled.");
             }
-            if (mImage.getConfig() != Bitmap.Config.RGB_565) {
-                // 请使用 RGB_565 格式
-                throw new Exception("Image is not RGB_565.");
-            }
-            final long nativePrt = DR_DocumentSkewDetectorCanny_create(mImage);
-            if (nativePrt == 0) {
-                throw new Exception("Create fail.");
-            }
             try {
+                final long nativePrt = DR_DocumentSkewDetectorCanny_create(mImage);
+                if (nativePrt == 0) {
+                    throw new Exception("Create fail.");
+                }
                 return new DocumentSkewDetectorCanny(nativePrt, mImage.getWidth(), mImage.getHeight());
             } finally {
                 if (mRecycleImage) {

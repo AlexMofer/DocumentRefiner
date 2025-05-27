@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentskewcorrection.app.activities.main.core;
+package io.github.alexmofer.documentskewcorrection.app.activities.main.tensorflow;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,20 +25,20 @@ import io.github.alexmofer.android.support.other.StringResource;
 import io.github.alexmofer.documentskewcorrection.app.R;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonGetImageDialogFragment;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonProcessingDialogFragment;
-import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainCoreBinding;
+import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainTensorflowBinding;
 import io.github.alexmofer.documentskewcorrection.app.widgets.AvoidArea;
 
 /**
- * Core 功能 示范
- * Created by Alex on 2025/5/26.
+ * Tensorflow 代理 Canny 算法 示范
+ * Created by Alex on 2025/5/27.
  */
-public class MainCoreFragment extends Fragment implements MainCommonGetImageDialogFragment.Callback,
-        MainCommonProcessingDialogFragment.Callback {
+public class MainTensorflowFragment extends Fragment implements
+        MainCommonGetImageDialogFragment.Callback, MainCommonProcessingDialogFragment.Callback {
 
     private ActivityResultLauncher<PickVisualMediaRequest> mPickPhoto;
     private ActivityResultLauncher<Uri> mTakePicture;
     private ActivityResultLauncher<String[]> mPickFile;
-    private MainCoreViewModel mViewModel;
+    private MainTensorflowViewModel mViewModel;
 
     public static void navigate(Fragment fragment) {
         final NavController controller;
@@ -47,13 +47,13 @@ public class MainCoreFragment extends Fragment implements MainCommonGetImageDial
         } catch (Exception e) {
             return;
         }
-        controller.navigate(R.id.main_navigation_crop);
+        controller.navigate(R.id.pca_navigation_tensorflow);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(MainCoreViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MainTensorflowViewModel.class);
         mPickPhoto = registerForActivityResult(new ActivityResultContracts.PickVisualMedia(),
                 uri -> {
                     if (uri != null) {
@@ -78,8 +78,8 @@ public class MainCoreFragment extends Fragment implements MainCommonGetImageDial
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        final FragmentMainCoreBinding binding =
-                FragmentMainCoreBinding.inflate(getLayoutInflater(), container, false);
+        final FragmentMainTensorflowBinding binding =
+                FragmentMainTensorflowBinding.inflate(getLayoutInflater(), container, false);
         AvoidArea.paddingIgnoreTop(binding.fmcVToolbar);
         AvoidArea.paddingIgnoreBottom(binding.fmcVContent);
         binding.fmcVToolbar.setNavigationOnClickListener(

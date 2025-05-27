@@ -17,6 +17,10 @@ import java.io.InputStream;
  */
 final class Utils {
 
+    private Utils() {
+        //no instance
+    }
+
     /**
      * 判断是否为位图
      *

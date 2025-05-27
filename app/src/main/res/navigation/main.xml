@@ -14,8 +14,8 @@
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.core.MainCoreFragment"
         tools:layout="@layout/fragment_main_core" />
 
-<!--    <fragment-->
-<!--        android:id="@+id/pca_navigation_crop"-->
-<!--        android:name="com.superace.updf.features.create.PDFCreateAdvancedRefineFragment"-->
-<!--        tools:layout="@layout/fragment_pdf_create_advanced_refine" />-->
+    <fragment
+        android:id="@+id/pca_navigation_tensorflow"
+        android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.tensorflow.MainTensorflowFragment"
+        tools:layout="@layout/fragment_main_tensorflow" />
 </navigation>
