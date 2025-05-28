@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.core.MainCoreFragment;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.hms.MainHMSFragment;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.tensorflow.MainTensorflowFragment;
+import io.github.alexmofer.documentskewcorrection.app.activities.main.ui.MainUIFragment;
 import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainRootBinding;
 import io.github.alexmofer.documentskewcorrection.app.widgets.AvoidArea;
 
@@ -31,6 +32,7 @@ public class MainRootFragment extends Fragment {
         binding.fmrVCore.setOnClickListener(v -> MainCoreFragment.navigate(this));
         binding.fmrVTensorflow.setOnClickListener(v -> MainTensorflowFragment.navigate(this));
         binding.fmrVHms.setOnClickListener(v -> MainHMSFragment.navigate(this));
+        binding.fmrVUi.setOnClickListener(v -> MainUIFragment.navigate(this));
         return binding.getRoot();
     }
 }

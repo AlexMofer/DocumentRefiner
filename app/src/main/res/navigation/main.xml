@@ -2,25 +2,58 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:startDestination="@+id/main_navigation_root">
+    android:id="@+id/main_navigation_root"
+    app:startDestination="@+id/main_fragment_root">
 
     <fragment
-        android:id="@+id/main_navigation_root"
+        android:id="@+id/main_fragment_root"
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.MainRootFragment"
-        tools:layout="@layout/fragment_main_root" />
+        tools:layout="@layout/fragment_main_root">
+
+        <action
+            android:id="@+id/main_action_root_to_core"
+            app:destination="@id/main_fragment_core" />
+        <action
+            android:id="@+id/main_action_root_to_tensorflow"
+            app:destination="@id/main_fragment_tensorflow" />
+        <action
+            android:id="@+id/main_action_root_to_hms"
+            app:destination="@id/main_fragment_hms" />
+        <action
+            android:id="@+id/main_action_root_to_ui"
+            app:destination="@id/main_fragment_ui" />
+    </fragment>
 
     <fragment
-        android:id="@+id/main_navigation_core"
+        android:id="@+id/main_fragment_core"
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.core.MainCoreFragment"
         tools:layout="@layout/fragment_main_auto" />
 
     <fragment
-        android:id="@+id/pca_navigation_tensorflow"
+        android:id="@+id/main_fragment_tensorflow"
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.tensorflow.MainTensorflowFragment"
         tools:layout="@layout/fragment_main_auto" />
 
     <fragment
-        android:id="@+id/pca_navigation_hms"
+        android:id="@+id/main_fragment_hms"
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.hms.MainHMSFragment"
         tools:layout="@layout/fragment_main_auto" />
+
+    <fragment
+        android:id="@+id/main_fragment_ui"
+        android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.ui.MainUIFragment"
+        tools:layout="@layout/fragment_main_ui">
+        <action
+            android:id="@+id/main_action_ui_to_corrected"
+            app:destination="@id/main_navigation_ui" />
+    </fragment>
+
+    <navigation
+        android:id="@+id/main_navigation_ui"
+        app:startDestination="@id/main_navigation_corrected">
+        <fragment
+            android:id="@+id/main_navigation_corrected"
+            android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.ui.MainCorrectedFragment"
+            tools:layout="@layout/fragment_main_corrected" />
+    </navigation>
 </navigation>

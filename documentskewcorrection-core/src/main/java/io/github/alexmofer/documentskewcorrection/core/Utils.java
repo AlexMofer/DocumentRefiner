@@ -13,6 +13,9 @@ import java.io.InputStream;
 
 /**
  * 工具
+ * 可使用以下工具库替换：
+ * io.github.alexmofer.android.support.utils.BitmapUtils
+ * io.github.alexmofer.android.support.formulas.DistanceFormulas
  * Created by Alex on 2025/5/24.
  */
 final class Utils {

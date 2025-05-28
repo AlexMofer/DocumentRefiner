@@ -23,7 +23,7 @@ public class MainCoreFragment extends MainAutoFragment {
         } catch (Exception e) {
             return;
         }
-        controller.navigate(R.id.main_navigation_core);
+        controller.navigate(R.id.main_action_root_to_core);
     }
 
     @NonNull

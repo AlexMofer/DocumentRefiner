@@ -7,28 +7,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.WorkerThread;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import java.io.File;
-import java.util.UUID;
 
 import io.github.alexmofer.android.support.other.StringResource;
-import io.github.alexmofer.android.support.utils.ContextUtils;
+import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonViewModel;
 import io.github.alexmofer.documentskewcorrection.app.concurrent.ListenableFutureHelper;
-import io.github.alexmofer.documentskewcorrection.app.utils.FileProviderUtils;
 import io.github.alexmofer.documentskewcorrection.app.utils.StringResourceExceptionUtils;
 
 /**
  * ViewModel
  * Created by Alex on 2025/5/26.
  */
-public abstract class MainAutoViewModel extends ViewModel {
+public abstract class MainAutoViewModel extends MainCommonViewModel {
     private final MutableLiveData<StringResource> mInfo = new MutableLiveData<>(new StringResource("点击右上角菜单选择一张图片"));
     private final MutableLiveData<Uri> mOriginal = new MutableLiveData<>();
     private final MutableLiveData<Uri> mCorrected = new MutableLiveData<>();
     private final MutableLiveData<StringResource> mFailure = new MutableLiveData<>();
-    private final MutableLiveData<Boolean> mProcessing = new MutableLiveData<>(false);
-    private Uri mTakePictureUri;
     private long mDetectStart;
     private long mDetectEnd;
     private long mCorrectStart;
@@ -53,40 +46,17 @@ public abstract class MainAutoViewModel extends ViewModel {
         mFailure.setValue(null);
     }
 
-    LiveData<Boolean> getProcessing() {
-        return mProcessing;
-    }
-
-    void handlePickImage(Context context, Uri uri) {
-        handleImage(context.getApplicationContext(), uri);
-    }
-
-    @NonNull
-    Uri generateTakePictureUri(Context context) {
-        final File dir = ContextUtils.getExternalCacheDir(context, true);
-        final File file = new File(dir, "Temp " + UUID.randomUUID().toString());
-        mTakePictureUri = FileProviderUtils.getUriForFile(context, file);
-        return mTakePictureUri;
-    }
-
-    void handleTakePicture(Context context) {
-        if (mTakePictureUri == null) {
-            return;
-        }
-        handleImage(context.getApplicationContext(), mTakePictureUri);
-        mTakePictureUri = null;
-    }
-
-    private void handleImage(Context context, Uri uri) {
+    @Override
+    protected final void handleImage(Context context, Uri uri) {
         mOriginal.setValue(uri);
-        mProcessing.setValue(true);
+        setProcessing(true);
         ListenableFutureHelper.submit(() -> {
             return handleImageInBackground(context, uri);
         }, result -> {
-            mProcessing.setValue(false);
+            setProcessing(false);
             mCorrected.setValue(result);
         }, t -> {
-            mProcessing.setValue(false);
+            setProcessing(false);
             mFailure.setValue(StringResourceExceptionUtils.getMessage(t));
         });
     }

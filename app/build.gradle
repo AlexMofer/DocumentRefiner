@@ -5,8 +5,6 @@ plugins {
 android {
     namespace 'io.github.alexmofer.documentskewcorrection.app'
     compileSdk 36
-    ndkVersion '28.1.13356709'
-    buildToolsVersion '36.0.0'
 
     defaultConfig {
         applicationId namespace
@@ -54,6 +52,7 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-vision-documentskew-model:3.7.0.301'
     implementation project(path: ':documentskewcorrection-hms')
     implementation project(path: ':documentskewcorrection-fusion')
+    implementation project(path: ':documentskewcorrection-ui')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

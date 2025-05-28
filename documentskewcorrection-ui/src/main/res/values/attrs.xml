@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DocumentSkewCorrectionView">
+        <attr name="android:strokeColor" />
+        <attr name="android:fillColor" />
+        <attr name="android:lineHeight" />
+        <attr name="android:innerRadius" />
+        <attr name="DSC_strokeWidth" format="dimension" />
+        <attr name="DSC_pointRadius" format="dimension" />
+        <attr name="DSC_magnifierOffset" format="dimension" />
+    </declare-styleable>
+</resources>

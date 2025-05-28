@@ -23,7 +23,7 @@ public class MainTensorflowFragment extends MainAutoFragment {
         } catch (Exception e) {
             return;
         }
-        controller.navigate(R.id.pca_navigation_tensorflow);
+        controller.navigate(R.id.main_action_root_to_tensorflow);
     }
 
 

@@ -28,5 +28,11 @@
             android:layout_height="wrap_content"
             android:text="HMS 示范" />
 
+        <Button
+            android:id="@+id/fmr_v_ui"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UI 示范" />
+
     </LinearLayout>
 </FrameLayout>

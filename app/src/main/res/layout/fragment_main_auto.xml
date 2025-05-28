@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/fmc_v_content"
+    android:id="@+id/fma_v_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fmc_v_toolbar"
+        android:id="@+id/fma_v_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF2F2F2"
-        app:menu="@menu/main_auto"
+        app:menu="@menu/main_common"
         app:navigationIcon="?homeAsUpIndicator" />
 
     <TextView
-        android:id="@+id/fmc_v_info"
+        android:id="@+id/fma_v_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
@@ -28,7 +28,7 @@
         android:padding="16dp">
 
         <ImageView
-            android:id="@+id/fmc_v_original"
+            android:id="@+id/fma_v_original"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -38,7 +38,7 @@
             android:layout_height="32dp" />
 
         <ImageView
-            android:id="@+id/fmc_v_corrected"
+            android:id="@+id/fma_v_corrected"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />

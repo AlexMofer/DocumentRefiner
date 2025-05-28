@@ -23,7 +23,7 @@ public class MainHMSFragment extends MainAutoFragment {
         } catch (Exception e) {
             return;
         }
-        controller.navigate(R.id.pca_navigation_hms);
+        controller.navigate(R.id.main_action_root_to_hms);
     }
 
     @NonNull

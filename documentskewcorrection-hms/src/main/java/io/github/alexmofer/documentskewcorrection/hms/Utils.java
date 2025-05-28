@@ -12,7 +12,9 @@ import androidx.exifinterface.media.ExifInterface;
 import java.io.InputStream;
 
 /**
- * 位图工具
+ * 工具
+ * 可使用以下工具库替换：
+ * io.github.alexmofer.android.support.utils.BitmapUtils
  * Created by Alex on 2024/4/16.
  */
 final class Utils {
