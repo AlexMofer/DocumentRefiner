@@ -58,6 +58,25 @@ public class DocumentSkewCorrectionCore {
     /**
      * 检测
      *
+     * @param image   位图
+     *                注意 ARGB_8888 格式的位图会强制作为未预乘的位图处理，传入带透明度的位图会检测不准确。
+     *                如果确定位图不带透明度，那么预乘与不预乘是无区别的。
+     *                因实际处理都会转为灰度图，如果位图带有透明度，请外部处理好是底部叠加黑色还是白色。
+     *                此处不做预乘限制是因为，从相机获取的位图，虽然预乘，但其实没有透明度，可作为未预乘的位图处理。
+     * @param maxSize 最大尺寸
+     * @return 检测到的文档边框，返回空表示未检测到文档边框
+     */
+    @WorkerThread
+    @Nullable
+    public static float[] detect(Bitmap image, float maxSize) throws Exception {
+        return detect(new DocumentSkewDetectorCanny.Builder(maxSize)
+                .setImage(image, false)
+                .build());
+    }
+
+    /**
+     * 检测
+     *
      * @param image 位图
      *              注意 ARGB_8888 格式的位图会强制作为未预乘的位图处理，传入带透明度的位图会检测不准确。
      *              如果确定位图不带透明度，那么预乘与不预乘是无区别的。
@@ -68,9 +87,7 @@ public class DocumentSkewCorrectionCore {
     @WorkerThread
     @Nullable
     public static float[] detect(Bitmap image) throws Exception {
-        return detect(new DocumentSkewDetectorCanny.Builder()
-                .setImage(image, false)
-                .build());
+        return detect(image, 500);
     }
 
     /**

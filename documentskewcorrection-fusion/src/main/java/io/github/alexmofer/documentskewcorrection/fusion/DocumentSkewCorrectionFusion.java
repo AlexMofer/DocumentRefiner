@@ -80,6 +80,36 @@ public class DocumentSkewCorrectionFusion {
 
     @WorkerThread
     @Nullable
+    private static float[] detect(int plan, Context context, Bitmap image, float maxSize) throws Exception {
+        if (plan == PLAN_CORE) {
+            return DocumentSkewCorrectionCore.detect(image, maxSize);
+        }
+        if (plan == PLAN_TENSORFLOW) {
+            return DocumentSkewCorrectionTensorflow.detect(context, image);
+        }
+        if (plan == PLAN_HMS) {
+            return DocumentSkewCorrectionHMS.detect(image, maxSize);
+        }
+        throw new Exception("Not supported plan:" + plan);
+    }
+
+    /**
+     * 检测
+     *
+     * @param context Context
+     * @param image   位图
+     *                注意：不同的方案对位图有不同要求。
+     * @param maxSize 最大尺寸
+     * @return 检测到的文档边框，返回空表示未检测到文档边框
+     */
+    @WorkerThread
+    @Nullable
+    public static float[] detect(Context context, Bitmap image, float maxSize) throws Exception {
+        return executeSequence(plan -> detect(plan, context, image, maxSize));
+    }
+
+    @WorkerThread
+    @Nullable
     private static float[] detect(int plan, Context context, Bitmap image) throws Exception {
         if (plan == PLAN_CORE) {
             return DocumentSkewCorrectionCore.detect(image);

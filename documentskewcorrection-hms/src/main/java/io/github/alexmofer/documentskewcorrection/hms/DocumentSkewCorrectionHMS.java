@@ -63,16 +63,18 @@ public class DocumentSkewCorrectionHMS {
     /**
      * 检测
      *
-     * @param image 位图
+     * @param image   位图
+     * @param maxSize 最大尺寸
      * @return 检测到的文档边框，返回空表示未检测到文档边框
      */
     @WorkerThread
     @Nullable
-    public static float[] detect(Bitmap image) throws Exception {
+    public static float[] detect(Bitmap image, float maxSize) throws Exception {
+        maxSize = Math.min(1920, maxSize);
         Bitmap target = image;
-        if (target.getWidth() > 1920 || target.getHeight() > 1920) {
+        if (target.getWidth() > maxSize || target.getHeight() > maxSize) {
             // 图片大小超限，缩小到限定尺寸
-            final float scale = Math.min(1920f / target.getWidth(), 1920f / target.getHeight());
+            final float scale = Math.min(maxSize / target.getWidth(), maxSize / target.getHeight());
             target = Bitmap.createScaledBitmap(target,
                     Math.round(scale * target.getWidth()),
                     Math.round(scale * target.getHeight()), true);
@@ -115,6 +117,18 @@ public class DocumentSkewCorrectionHMS {
         ps[6] = rb.x * 1f / width;
         ps[7] = rb.y * 1f / height;
         return ps;
+    }
+
+    /**
+     * 检测
+     *
+     * @param image 位图
+     * @return 检测到的文档边框，返回空表示未检测到文档边框
+     */
+    @WorkerThread
+    @Nullable
+    public static float[] detect(Bitmap image) throws Exception {
+        return detect(image, 500);
     }
 
     /**

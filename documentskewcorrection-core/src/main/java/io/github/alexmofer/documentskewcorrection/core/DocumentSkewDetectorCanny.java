@@ -43,7 +43,7 @@ public final class DocumentSkewDetectorCanny extends DocumentSkewDetector {
         private Bitmap mImage;
         private boolean mRecycleImage;
 
-        public Builder(int maxSize) {
+        public Builder(float maxSize) {
             mMaxSize = maxSize;
         }
 
