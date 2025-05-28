@@ -81,9 +81,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
         if (controlPoint == POINT_LT) {
             // 变更左上点
             // 情况1：LT与LB连线与RT与RB连线出现焦点，LT与RT互换
-            final double[] p1 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect1 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, lbx, lby, rtx, rty, rbx, rby);
-            if (p1 != null) {
+            if (intersect1) {
                 // 交换
                 points[0] = rtx;
                 points[1] = rty;
@@ -96,9 +96,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
                 return POINT_RT;
             }
             // 情况2：LT与RT连线与LB与RB连续出现焦点，LT与LB互换
-            final double[] p2 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect2 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, rtx, rty, lbx, lby, rbx, rby);
-            if (p2 != null) {
+            if (intersect2) {
                 // 交换
                 points[0] = lbx;
                 points[1] = lby;
@@ -128,9 +128,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
         } else if (controlPoint == POINT_RT) {
             // 变更右上点
             // 情况1：LT与LB连线与RT与RB连线出现焦点，RT与LT互换
-            final double[] p1 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect1 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, lbx, lby, rtx, rty, rbx, rby);
-            if (p1 != null) {
+            if (intersect1) {
                 // 交换
                 points[0] = rtx;
                 points[1] = rty;
@@ -143,9 +143,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
                 return POINT_LT;
             }
             // 情况2：LT与RT连线与LB与RB连续出现焦点，RT与RB互换
-            final double[] p2 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect2 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, rtx, rty, lbx, lby, rbx, rby);
-            if (p2 != null) {
+            if (intersect2) {
                 // 交换
                 points[0] = ltx;
                 points[1] = lty;
@@ -175,9 +175,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
         } else if (controlPoint == POINT_LB) {
             // 变更左下点
             // 情况1：LT与LB连线与RT与RB连线出现焦点，LB与RB互换
-            final double[] p1 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect1 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, lbx, lby, rtx, rty, rbx, rby);
-            if (p1 != null) {
+            if (intersect1) {
                 // 交换
                 points[0] = ltx;
                 points[1] = lty;
@@ -190,9 +190,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
                 return POINT_RB;
             }
             // 情况2：LT与RT连线与LB与RB连续出现焦点，LB与LT互换
-            final double[] p2 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect2 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, rtx, rty, lbx, lby, rbx, rby);
-            if (p2 != null) {
+            if (intersect2) {
                 // 交换
                 points[0] = lbx;
                 points[1] = lby;
@@ -222,9 +222,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
         } else if (controlPoint == POINT_RB) {
             // 变更右下点
             // 情况1：LT与LB连线与RT与RB连线出现焦点，RB与LB互换
-            final double[] p1 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect1 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, lbx, lby, rtx, rty, rbx, rby);
-            if (p1 != null) {
+            if (intersect1) {
                 // 交换
                 points[0] = ltx;
                 points[1] = lty;
@@ -237,9 +237,9 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
                 return POINT_LB;
             }
             // 情况2：LT与RT连线与LB与RB连续出现焦点，RB与RT互换
-            final double[] p2 = Utils.calculateIntersectionLineSegmentToLineSegment(
+            final boolean intersect2 = Utils.isIntersectLineSegmentToLineSegment(
                     ltx, lty, rtx, rty, lbx, lby, rbx, rby);
-            if (p2 != null) {
+            if (intersect2) {
                 // 交换
                 points[0] = ltx;
                 points[1] = lty;
