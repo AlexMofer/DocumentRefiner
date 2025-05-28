@@ -29,3 +29,5 @@ dependencies {
     compileOnly project(path: ':documentskewcorrection-tensorflow')
     compileOnly project(path: ':documentskewcorrection-hms')
 }
+
+//apply from: "maven-central-aar.gradle"

@@ -28,3 +28,5 @@ dependencies {
     compileOnly 'androidx.annotation:annotation:1.9.1'
     compileOnly 'org.tensorflow:tensorflow-lite:2.9.0'
 }
+
+//apply from: "maven-central-aar.gradle"
