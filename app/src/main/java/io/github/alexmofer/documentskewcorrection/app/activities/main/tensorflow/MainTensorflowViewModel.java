@@ -27,12 +27,16 @@ public class MainTensorflowViewModel extends MainAutoViewModel {
     @NonNull
     protected Uri handleImageInBackground(Context context, @NonNull Uri uri) throws Exception {
         // 检测
+        this.notifyDetectStart();
         final float[] points = DocumentSkewCorrectionTensorflow.detect(context, uri);
+        this.notifyDetectEnd();
         if (points == null) {
             throw new StringResourceException("检测不到文档边框，请选择其他图片");
         }
         // 校正
+        this.notifyCorrectStart();
         final Bitmap corrected = DocumentSkewCorrectionTensorflow.correct(context, uri, points);
+        this.notifyCorrectEnd();
         if (corrected == null) {
             throw new StringResourceException("文档校正失败");
         }

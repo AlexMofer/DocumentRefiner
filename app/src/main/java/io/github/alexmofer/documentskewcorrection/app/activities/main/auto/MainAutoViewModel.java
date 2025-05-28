@@ -23,11 +23,19 @@ import io.github.alexmofer.documentskewcorrection.app.utils.StringResourceExcept
  * Created by Alex on 2025/5/26.
  */
 public abstract class MainAutoViewModel extends ViewModel {
+    private final MutableLiveData<StringResource> mInfo = new MutableLiveData<>(new StringResource("点击右上角菜单选择一张图片"));
     private final MutableLiveData<Uri> mOriginal = new MutableLiveData<>();
     private final MutableLiveData<Uri> mCorrected = new MutableLiveData<>();
     private final MutableLiveData<StringResource> mFailure = new MutableLiveData<>();
     private final MutableLiveData<Boolean> mProcessing = new MutableLiveData<>(false);
     private Uri mTakePictureUri;
+    private long mDetectStart;
+    private long mDetectEnd;
+    private long mCorrectStart;
+
+    LiveData<StringResource> getInfo() {
+        return mInfo;
+    }
 
     LiveData<Uri> getOriginal() {
         return mOriginal;
@@ -94,4 +102,26 @@ public abstract class MainAutoViewModel extends ViewModel {
     @WorkerThread
     @NonNull
     protected abstract Uri handleImageInBackground(Context context, @NonNull Uri uri) throws Exception;
+
+    protected void notifyDetectStart() {
+        mDetectStart = System.currentTimeMillis();
+    }
+
+    protected void notifyDetectEnd() {
+        mDetectEnd = System.currentTimeMillis();
+        final long detect = mDetectEnd - mDetectStart;
+        final String info = "检测用时：" + detect + "毫秒。";
+        mInfo.postValue(new StringResource(info));
+    }
+
+    protected void notifyCorrectStart() {
+        mCorrectStart = System.currentTimeMillis();
+    }
+
+    protected void notifyCorrectEnd() {
+        final long detect = mDetectEnd - mDetectStart;
+        final long correct = System.currentTimeMillis() - mCorrectStart;
+        final String info = "检测用时：" + detect + "毫秒，校正用时：" + correct + "毫秒。";
+        mInfo.postValue(new StringResource(info));
+    }
 }

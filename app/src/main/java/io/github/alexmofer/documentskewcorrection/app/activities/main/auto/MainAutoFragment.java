@@ -80,8 +80,8 @@ public abstract class MainAutoFragment extends Fragment implements
                              @Nullable Bundle savedInstanceState) {
         final FragmentMainAutoBinding binding =
                 FragmentMainAutoBinding.inflate(getLayoutInflater(), container, false);
-        AvoidArea.paddingIgnoreTop(binding.fmcVToolbar);
-        AvoidArea.paddingIgnoreBottom(binding.fmcVContent);
+        AvoidArea.paddingIgnoreBottom(binding.fmcVToolbar);
+        AvoidArea.paddingIgnoreTop(binding.fmcVContent);
         binding.fmcVToolbar.setTitle(getTitle());
         binding.fmcVToolbar.setNavigationOnClickListener(
                 v -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
@@ -96,6 +96,8 @@ public abstract class MainAutoFragment extends Fragment implements
 
         final LifecycleOwner owner = getViewLifecycleOwner();
         final RequestManager manager = Glide.with(this);
+        mViewModel.getInfo().observe(owner,
+                value -> StringResource.setText(binding.fmcVInfo, value));
         mViewModel.getOriginal().observe(owner,
                 value -> manager.load(value).into(binding.fmcVOriginal));
         mViewModel.getCorrected().observe(owner,

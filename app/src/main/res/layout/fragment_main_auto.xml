@@ -10,14 +10,22 @@
         android:id="@+id/fmc_v_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFF2F2F2"
         app:menu="@menu/main_auto"
         app:navigationIcon="?homeAsUpIndicator" />
+
+    <TextView
+        android:id="@+id/fmc_v_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp" />
 
     <io.github.alexmofer.documentskewcorrection.app.widgets.AutoChangeLinerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="32dp">
+        android:padding="16dp">
 
         <ImageView
             android:id="@+id/fmc_v_original"

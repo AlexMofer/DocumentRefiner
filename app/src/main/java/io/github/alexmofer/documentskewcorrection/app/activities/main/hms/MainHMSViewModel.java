@@ -31,12 +31,16 @@ public class MainHMSViewModel extends MainAutoViewModel {
             throw new StringResourceException("设备不支持");
         }
         // 检测
+        this.notifyDetectStart();
         final float[] points = DocumentSkewCorrectionHMS.detect(context, uri);
+        this.notifyDetectEnd();
         if (points == null) {
             throw new StringResourceException("检测不到文档边框，请选择其他图片");
         }
         // 校正
+        this.notifyCorrectStart();
         final Bitmap corrected = DocumentSkewCorrectionHMS.correct(context, uri, points);
+        this.notifyCorrectEnd();
         if (corrected == null) {
             throw new StringResourceException("文档校正失败");
         }
