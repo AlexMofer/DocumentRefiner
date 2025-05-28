@@ -124,7 +124,7 @@ public final class DocumentSkewCorrector {
         /**
          * 设置位图
          *
-         * @param image        文档图片，必须为未预乘的 ARGB_8888 格式，DocumentSkewCorrector 会对位图持有。
+         * @param image        文档图片，必须为 ARGB_8888 格式，DocumentSkewCorrector 会对位图持有。
          * @param recycleImage 释放时是否主动销毁位图
          * @return 构建器
          */
@@ -137,11 +137,9 @@ public final class DocumentSkewCorrector {
             }
             if (image.getConfig() != Bitmap.Config.ARGB_8888) {
                 // 请使用 ARGB_8888 格式
+                // 如果有透明度，请外部将该位图转为未预乘的 ARGB_8888
+                // 此处不做预乘限制是因为，从相机获取的位图，虽然预乘，但其实没有透明度，可作为未预乘的位图处理。
                 throw new RuntimeException("Image is not ARGB_8888.");
-            }
-            if (image.isPremultiplied()) {
-                // 请使用未预乘的 ARGB_8888 位图
-                throw new RuntimeException("Image is premultiplied.");
             }
             if (mImage != null) {
                 if (mRecycleImage) {

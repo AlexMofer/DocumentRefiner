@@ -11,11 +11,18 @@ namespace DR {
     class DocumentSkewDetectorCanny final : public DocumentSkewDetector {
 
     public:
-        explicit DocumentSkewDetectorCanny(int width, int height, void *BGR565) {
-            cv::Mat image = cv::Mat(height, width, CV_8UC2, BGR565);
-            mImage = cv::Mat(height, width, CV_8UC1);
-            cv::cvtColor(image, mImage, cv::COLOR_BGR5652GRAY);
-            image.release();
+        explicit DocumentSkewDetectorCanny(int width, int height, void *pixels, bool alpha) {
+            if (alpha) {
+                cv::Mat image = cv::Mat(height, width, CV_8UC4, pixels);
+                mImage = cv::Mat(height, width, CV_8UC1);
+                cv::cvtColor(image, mImage, cv::COLOR_RGBA2GRAY);
+                image.release();
+            } else {
+                cv::Mat image = cv::Mat(height, width, CV_8UC2, pixels);
+                mImage = cv::Mat(height, width, CV_8UC1);
+                cv::cvtColor(image, mImage, cv::COLOR_BGR5652GRAY);
+                image.release();
+            }
         }
 
         ~DocumentSkewDetectorCanny() override { mImage.release(); }

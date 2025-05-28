@@ -50,6 +50,10 @@ dependencies {
     implementation project(path: ':documentskewcorrection-core')
     implementation 'org.tensorflow:tensorflow-lite:2.9.0'
     implementation project(path: ':documentskewcorrection-tensorflow')
+    implementation 'com.huawei.hms:ml-computer-vision-documentskew:3.11.0.301'
+    implementation 'com.huawei.hms:ml-computer-vision-documentskew-model:3.7.0.301'
+    implementation project(path: ':documentskewcorrection-hms')
+    implementation project(path: ':documentskewcorrection-fusion')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'

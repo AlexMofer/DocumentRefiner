@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentskewcorrection.app.activities.main.core;
+package io.github.alexmofer.documentskewcorrection.app.activities.main.hms;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -11,10 +11,10 @@ import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainA
 import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainAutoViewModel;
 
 /**
- * Core 功能 示范
- * Created by Alex on 2025/5/26.
+ * HMS 算法 示范
+ * Created by Alex on 2025/5/27.
  */
-public class MainCoreFragment extends MainAutoFragment {
+public class MainHMSFragment extends MainAutoFragment {
 
     public static void navigate(Fragment fragment) {
         final NavController controller;
@@ -23,17 +23,17 @@ public class MainCoreFragment extends MainAutoFragment {
         } catch (Exception e) {
             return;
         }
-        controller.navigate(R.id.main_navigation_core);
+        controller.navigate(R.id.pca_navigation_hms);
     }
 
     @NonNull
     @Override
     protected MainAutoViewModel onCreateViewModel() {
-        return new ViewModelProvider(this).get(MainCoreViewModel.class);
+        return new ViewModelProvider(this).get(MainHMSViewModel.class);
     }
 
     @Override
     protected CharSequence getTitle() {
-        return "Core 功能 示范";
+        return "HMS 算法 示范";
     }
 }

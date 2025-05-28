@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'io.github.alexmofer.documentskewcorrection.tensorflow'
+    namespace 'io.github.alexmofer.documentskewcorrection.fusion'
     compileSdk 36
 
     defaultConfig {
@@ -24,7 +24,6 @@ android {
 }
 
 dependencies {
-    api project(path: ':documentskewcorrection-core')
     compileOnly 'androidx.annotation:annotation:1.9.1'
-    compileOnly 'org.tensorflow:tensorflow-lite:2.9.0'
+    compileOnly 'androidx.exifinterface:exifinterface:1.4.1'
 }

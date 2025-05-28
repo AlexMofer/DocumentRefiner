@@ -41,9 +41,13 @@ public final class DocumentSkewDetectorCanny extends DocumentSkewDetector {
             if (image.isRecycled()) {
                 throw new RuntimeException("Image is recycled.");
             }
-            if (image.getConfig() != Bitmap.Config.RGB_565) {
-                // 请使用 RGB_565 格式
-                throw new RuntimeException("Image is not RGB_565.");
+            if (image.getConfig() != Bitmap.Config.ARGB_8888
+                    && image.getConfig() != Bitmap.Config.RGB_565) {
+                // 注意 ARGB_8888 格式的位图会强制作为未预乘的位图处理，传入带透明度的位图会检测不准确。
+                // 如果确定位图不带透明度，那么预乘与不预乘是无区别的。
+                // 因实际处理都会转为灰度图，如果位图带有透明度，请外部处理好是底部叠加黑色还是白色。
+                // 此处不做预乘限制是因为，从相机获取的位图，虽然预乘，但其实没有透明度，可作为未预乘的位图处理。
+                throw new RuntimeException("Image format is not support.");
             }
             if (mImage != null) {
                 if (mRecycleImage) {

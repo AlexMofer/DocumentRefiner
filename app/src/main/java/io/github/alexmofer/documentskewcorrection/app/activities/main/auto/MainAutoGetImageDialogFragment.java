@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentskewcorrection.app.activities.main.common;
+package io.github.alexmofer.documentskewcorrection.app.activities.main.auto;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -15,7 +15,7 @@ import io.github.alexmofer.android.support.utils.FragmentUtils;
  * 获取图片对话框
  * Created by Alex on 2025/5/26.
  */
-public class MainCommonGetImageDialogFragment extends DialogFragment
+public class MainAutoGetImageDialogFragment extends DialogFragment
         implements DialogInterface.OnClickListener {
 
     @NonNull

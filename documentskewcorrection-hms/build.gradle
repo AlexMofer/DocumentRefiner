@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace 'io.github.alexmofer.documentskewcorrection.tensorflow'
+    namespace 'io.github.alexmofer.documentskewcorrection.hms'
     compileSdk 36
 
     defaultConfig {
@@ -24,7 +24,8 @@ android {
 }
 
 dependencies {
-    api project(path: ':documentskewcorrection-core')
+    compileOnly 'com.huawei.hms:ml-computer-vision-documentskew:3.11.0.301'
+    compileOnly 'com.huawei.hms:ml-computer-vision-documentskew-model:3.7.0.301'
     compileOnly 'androidx.annotation:annotation:1.9.1'
-    compileOnly 'org.tensorflow:tensorflow-lite:2.9.0'
+    compileOnly 'androidx.exifinterface:exifinterface:1.4.1'
 }

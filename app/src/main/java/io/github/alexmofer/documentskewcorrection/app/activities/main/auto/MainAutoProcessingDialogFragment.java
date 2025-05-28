@@ -1,4 +1,4 @@
-package io.github.alexmofer.documentskewcorrection.app.activities.main.common;
+package io.github.alexmofer.documentskewcorrection.app.activities.main.auto;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import io.github.alexmofer.android.support.utils.FragmentUtils;
  * 处理中
  * Created by Alex on 2025/5/26.
  */
-public class MainCommonProcessingDialogFragment extends DialogFragment {
+public class MainAutoProcessingDialogFragment extends DialogFragment {
 
     @NonNull
     @Override

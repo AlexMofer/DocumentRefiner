@@ -10,9 +10,8 @@
         android:id="@+id/fmc_v_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:menu="@menu/main_core"
-        app:navigationIcon="?homeAsUpIndicator"
-        app:title="Core 功能 示范" />
+        app:menu="@menu/main_auto"
+        app:navigationIcon="?homeAsUpIndicator" />
 
     <io.github.alexmofer.documentskewcorrection.app.widgets.AutoChangeLinerLayout
         android:layout_width="match_parent"

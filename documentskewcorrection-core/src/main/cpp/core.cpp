@@ -48,14 +48,15 @@ jint DR_DocumentSkewDetector_RegisterNatives(JNIEnv *env) {
 
 static jlong DR_DocumentSkewDetectorCanny_create(JNIEnv *env, jclass /*clazz*/,
                                                  jobject image) {
-    // 上层控制此处传入的是BGR565的位图（ANDROID_BITMAP_FORMAT_RGB_565 位图）
+    // 注意 ANDROID_BITMAP_FORMAT_RGBA_8888 格式的位图会强制作为未预乘的位图处理，传入带透明度的位图会检测不准确。
     AndroidBitmapInfo info;
     if (AndroidBitmap_getInfo(env, image, &info) != ANDROID_BITMAP_RESULT_SUCCESS) {
         // 无法获取位图信息
         return 0;
     }
-    if (info.format != ANDROID_BITMAP_FORMAT_RGB_565) {
-        // 格式错误，此处不做格式转换。因为终究要转为灰度图，因此为提高效率，此处强制要求传入无透明通道的位图
+    if (info.format != ANDROID_BITMAP_FORMAT_RGBA_8888
+        && info.format != ANDROID_BITMAP_FORMAT_RGB_565) {
+        // 不支持的格式
         return 0;
     }
     void *pixels = nullptr;
@@ -63,7 +64,9 @@ static jlong DR_DocumentSkewDetectorCanny_create(JNIEnv *env, jclass /*clazz*/,
         // 无法锁定像素
         return 0;
     }
-    auto created = new DR::DocumentSkewDetectorCanny((int) info.width, (int) info.height, pixels);
+    auto created = new DR::DocumentSkewDetectorCanny((int) info.width, (int) info.height, pixels,
+                                                     info.format ==
+                                                     ANDROID_BITMAP_FORMAT_RGBA_8888);
     AndroidBitmap_unlockPixels(env, image);
     return (jlong) created;
 }

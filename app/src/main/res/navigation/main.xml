@@ -10,12 +10,17 @@
         tools:layout="@layout/fragment_main_root" />
 
     <fragment
-        android:id="@+id/main_navigation_crop"
+        android:id="@+id/main_navigation_core"
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.core.MainCoreFragment"
-        tools:layout="@layout/fragment_main_core" />
+        tools:layout="@layout/fragment_main_auto" />
 
     <fragment
         android:id="@+id/pca_navigation_tensorflow"
         android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.tensorflow.MainTensorflowFragment"
-        tools:layout="@layout/fragment_main_tensorflow" />
+        tools:layout="@layout/fragment_main_auto" />
+
+    <fragment
+        android:id="@+id/pca_navigation_hms"
+        android:name="io.github.alexmofer.documentskewcorrection.app.activities.main.hms.MainHMSFragment"
+        tools:layout="@layout/fragment_main_auto" />
 </navigation>
