@@ -15,7 +15,7 @@ import java.nio.channels.FileChannel;
 import io.github.alexmofer.documentskewcorrection.core.DocumentSkewDetectorDelegated;
 
 /**
- * 使用 tensorflow 代理 Canny 算法
+ * Tensorflow 代理位图处理
  * 速度快一些，但精度丢失明显，适合速度要求高于精度要求的识别场景。
  * Created by Alex on 2025/5/27.
  */

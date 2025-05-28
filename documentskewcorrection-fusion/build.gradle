@@ -25,5 +25,7 @@ android {
 
 dependencies {
     compileOnly 'androidx.annotation:annotation:1.9.1'
-    compileOnly 'androidx.exifinterface:exifinterface:1.4.1'
+    compileOnly project(path: ':documentskewcorrection-core')
+    compileOnly project(path: ':documentskewcorrection-tensorflow')
+    compileOnly project(path: ':documentskewcorrection-hms')
 }

@@ -11,7 +11,7 @@ import io.github.alexmofer.documentskewcorrection.core.DocumentSkewCorrectionCor
 import io.github.alexmofer.documentskewcorrection.core.DocumentSkewDetector;
 
 /**
- * 默认的文档校正
+ * 文档校正
  * Created by Alex on 2025/5/26.
  */
 public class DocumentSkewCorrectionTensorflow {

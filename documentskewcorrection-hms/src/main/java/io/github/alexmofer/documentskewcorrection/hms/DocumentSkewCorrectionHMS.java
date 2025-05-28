@@ -22,7 +22,7 @@ import com.huawei.hms.mlsdk.dsc.MLDocumentSkewDetectResult;
 import java.util.ArrayList;
 
 /**
- * HMS的文档校正
+ * 文档校正
  * Created by Alex on 2025/5/26.
  */
 public class DocumentSkewCorrectionHMS {

@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.WorkerThread;
 
 /**
- * 默认的文档校正
+ * 文档校正
  * Created by Alex on 2025/5/26.
  */
 public class DocumentSkewCorrectionCore {

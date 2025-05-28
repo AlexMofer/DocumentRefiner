@@ -11,7 +11,7 @@ import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainA
 import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainAutoViewModel;
 
 /**
- * Core 功能 示范
+ * Core 示范
  * Created by Alex on 2025/5/26.
  */
 public class MainCoreFragment extends MainAutoFragment {
@@ -34,6 +34,6 @@ public class MainCoreFragment extends MainAutoFragment {
 
     @Override
     protected CharSequence getTitle() {
-        return "Core 功能 示范";
+        return "Core 示范";
     }
 }

@@ -14,19 +14,19 @@
             android:id="@+id/fmr_v_core"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Core 功能 示范" />
+            android:text="Core 示范" />
 
         <Button
             android:id="@+id/fmr_v_tensorflow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tensorflow 代理 Canny 算法 示范" />
+            android:text="Tensorflow 代理位图处理 示范" />
 
         <Button
             android:id="@+id/fmr_v_hms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="HMS 算法 示范" />
+            android:text="HMS 示范" />
 
     </LinearLayout>
 </FrameLayout>

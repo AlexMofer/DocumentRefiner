@@ -11,7 +11,7 @@ import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainA
 import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainAutoViewModel;
 
 /**
- * Tensorflow 代理 Canny 算法 示范
+ * Tensorflow 代理位图处理 示范
  * Created by Alex on 2025/5/27.
  */
 public class MainTensorflowFragment extends MainAutoFragment {
@@ -35,6 +35,6 @@ public class MainTensorflowFragment extends MainAutoFragment {
 
     @Override
     protected CharSequence getTitle() {
-        return "Tensorflow 代理 Canny 算法 示范";
+        return "Tensorflow 代理位图处理 示范";
     }
 }

@@ -11,7 +11,7 @@ import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainA
 import io.github.alexmofer.documentskewcorrection.app.activities.main.auto.MainAutoViewModel;
 
 /**
- * HMS 算法 示范
+ * HMS 示范
  * Created by Alex on 2025/5/27.
  */
 public class MainHMSFragment extends MainAutoFragment {
@@ -34,6 +34,6 @@ public class MainHMSFragment extends MainAutoFragment {
 
     @Override
     protected CharSequence getTitle() {
-        return "HMS 算法 示范";
+        return "HMS 示范";
     }
 }
