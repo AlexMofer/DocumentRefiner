@@ -45,13 +45,16 @@ dependencies {
     implementation 'io.github.alexmofer.android:support:1.6.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    // Core
     implementation project(path: ':documentskewcorrection-core')
+    // TensorFlow
     implementation 'org.tensorflow:tensorflow-lite:2.9.0'
     implementation project(path: ':documentskewcorrection-tensorflow')
+    // HMS
     implementation 'com.huawei.hms:ml-computer-vision-documentskew:3.11.0.301'
     implementation 'com.huawei.hms:ml-computer-vision-documentskew-model:3.7.0.301'
     implementation project(path: ':documentskewcorrection-hms')
-    implementation project(path: ':documentskewcorrection-fusion')
+    // UI
     implementation project(path: ':documentskewcorrection-ui')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'

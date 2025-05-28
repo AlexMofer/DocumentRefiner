@@ -5,6 +5,7 @@ DocumentSkewCorrection-Core
 ---
 
 文档检测与校正核心库
+暂时无法编译x86的ABI，因为OpenCV 4.11.0 版本 x86编译不通过。
 
 使用
 ---
