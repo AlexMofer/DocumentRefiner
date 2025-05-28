@@ -1,10 +1,13 @@
 package io.github.alexmofer.documentskewcorrection.core;
 
+import androidx.annotation.Keep;
+
 /**
  * 文档探测器
  * 位图处理算法已被外部代理
  * Created by Alex on 2025/5/20.
  */
+@Keep
 public final class DocumentSkewDetectorDelegated extends DocumentSkewDetector {
 
     private DocumentSkewDetectorDelegated(long nativePrt, int width, int height) {

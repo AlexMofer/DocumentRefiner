@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 
 /**
  * 文档探测器
  * Created by Alex on 2025/5/20.
  */
+@Keep
 public abstract class DocumentSkewDetector {
 
     private final long mNativePrt;
