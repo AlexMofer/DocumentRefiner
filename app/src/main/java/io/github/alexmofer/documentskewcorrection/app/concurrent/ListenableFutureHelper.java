@@ -12,6 +12,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.function.Consumer;
 
+import io.github.alexmofer.android.support.concurrent.UIThreadExecutor;
+
 /**
  * ListenableFuture 辅助
  * Created by Alex on 2025/5/26.

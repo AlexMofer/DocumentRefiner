@@ -9,9 +9,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import io.github.alexmofer.android.support.other.StringResource;
+import io.github.alexmofer.android.support.other.StringResourceException;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonViewModel;
 import io.github.alexmofer.documentskewcorrection.app.concurrent.ListenableFutureHelper;
-import io.github.alexmofer.documentskewcorrection.app.utils.StringResourceExceptionUtils;
 
 /**
  * ViewModel
@@ -57,7 +57,7 @@ public abstract class MainAutoViewModel extends MainCommonViewModel {
             mCorrected.setValue(result);
         }, t -> {
             setProcessing(false);
-            mFailure.setValue(StringResourceExceptionUtils.getMessage(t));
+            mFailure.setValue(StringResourceException.getMessage(t));
         });
     }
 

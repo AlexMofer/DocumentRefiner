@@ -15,9 +15,9 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.bumptech.glide.Glide;
 
+import io.github.alexmofer.android.support.widget.AvoidArea;
 import io.github.alexmofer.documentskewcorrection.app.R;
 import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainCorrectedBinding;
-import io.github.alexmofer.documentskewcorrection.app.widgets.AvoidArea;
 
 /**
  * Created by Alex on 2025/5/28.

@@ -13,9 +13,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import io.github.alexmofer.android.support.other.StringResource;
+import io.github.alexmofer.android.support.widget.AvoidArea;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonFragment;
 import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainAutoBinding;
-import io.github.alexmofer.documentskewcorrection.app.widgets.AvoidArea;
 
 /**
  * Core 功能 示范

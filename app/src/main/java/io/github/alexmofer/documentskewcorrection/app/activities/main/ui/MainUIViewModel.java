@@ -18,7 +18,6 @@ import io.github.alexmofer.android.support.utils.ContextUtils;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonViewModel;
 import io.github.alexmofer.documentskewcorrection.app.concurrent.ListenableFutureHelper;
 import io.github.alexmofer.documentskewcorrection.app.utils.FileProviderUtils;
-import io.github.alexmofer.documentskewcorrection.app.utils.StringResourceExceptionUtils;
 import io.github.alexmofer.documentskewcorrection.core.DocumentSkewCorrectionCore;
 
 /**
@@ -71,7 +70,7 @@ public class MainUIViewModel extends MainCommonViewModel {
             mPoints.setValue(result);
         }, t -> {
             setProcessing(false);
-            mFailure.setValue(StringResourceExceptionUtils.getMessage(t));
+            mFailure.setValue(StringResourceException.getMessage(t));
         });
     }
 
@@ -110,7 +109,7 @@ public class MainUIViewModel extends MainCommonViewModel {
             mCorrected.setValue(result);
         }, t -> {
             setProcessing(false);
-            mFailure.setValue(StringResourceExceptionUtils.getMessage(t));
+            mFailure.setValue(StringResourceException.getMessage(t));
         });
     }
 }

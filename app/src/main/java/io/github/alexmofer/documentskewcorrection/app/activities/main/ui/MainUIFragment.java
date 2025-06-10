@@ -17,10 +17,10 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 
 import io.github.alexmofer.android.support.other.StringResource;
+import io.github.alexmofer.android.support.widget.AvoidArea;
 import io.github.alexmofer.documentskewcorrection.app.R;
 import io.github.alexmofer.documentskewcorrection.app.activities.main.common.MainCommonFragment;
 import io.github.alexmofer.documentskewcorrection.app.databinding.FragmentMainUiBinding;
-import io.github.alexmofer.documentskewcorrection.app.widgets.AvoidArea;
 
 /**
  * UI 示范
