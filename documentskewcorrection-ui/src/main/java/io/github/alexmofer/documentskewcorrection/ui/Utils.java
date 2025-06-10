@@ -15,7 +15,18 @@
  */
 package io.github.alexmofer.documentskewcorrection.ui;
 
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.os.Build;
+import android.util.AttributeSet;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.annotation.StyleableRes;
+
+import java.util.function.Consumer;
 
 /**
  * 工具
@@ -29,6 +40,7 @@ final class Utils {
     private Utils() {
         //no instance
     }
+
     /**
      * 计算点位于直线的哪一边
      *
@@ -332,5 +344,31 @@ final class Utils {
         final double dx = x2 - x1;
         final double dy = y2 - y1;
         return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    /**
+     * Retrieve styled attribute information in this Context's theme.  See
+     * {@link android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)}
+     * for more information.
+     *
+     * @see android.content.res.Resources.Theme#obtainStyledAttributes(AttributeSet, int[], int, int)
+     */
+    public static void obtainStyledAttributes(Consumer<TypedArray> consumer,
+                                              @NonNull Context context,
+                                              @Nullable AttributeSet set,
+                                              @NonNull @StyleableRes int[] attrs,
+                                              @AttrRes int defStyleAttr,
+                                              @StyleRes int defStyleRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            try (final TypedArray custom =
+                         context.obtainStyledAttributes(set, attrs, defStyleAttr, defStyleRes)) {
+                consumer.accept(custom);
+            }
+        } else {
+            final TypedArray custom =
+                    context.obtainStyledAttributes(set, attrs, defStyleAttr, defStyleRes);
+            consumer.accept(custom);
+            custom.recycle();
+        }
     }
 }

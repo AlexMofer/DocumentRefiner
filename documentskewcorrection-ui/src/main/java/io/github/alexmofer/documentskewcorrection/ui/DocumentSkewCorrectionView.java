@@ -17,7 +17,6 @@ package io.github.alexmofer.documentskewcorrection.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -296,42 +295,43 @@ public class DocumentSkewCorrectionView extends AppCompatImageView {
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr) {
         final DisplayMetrics metrics = getResources().getDisplayMetrics();
-        float strokeWidth = TypedValueCompat.dpToPx(2, metrics);
         mPointRadius = Math.round(TypedValueCompat.dpToPx(8, metrics));
         mMagnifierOffset = TypedValueCompat.dpToPx(64, metrics);
-        try (final TypedArray custom = context.obtainStyledAttributes(attrs,
-                R.styleable.DocumentSkewCorrectionView, defStyleAttr, 0)) {
-            mStrokeColor = custom.getColor(
-                    R.styleable.DocumentSkewCorrectionView_android_strokeColor, mStrokeColor);
-            mFillColor = custom.getColor(
-                    R.styleable.DocumentSkewCorrectionView_android_fillColor, mFillColor);
-            if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_android_lineHeight)) {
-                strokeWidth = custom.getDimension(
-                        R.styleable.DocumentSkewCorrectionView_android_lineHeight, strokeWidth);
-            }
-            if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_DSC_strokeWidth)) {
-                strokeWidth = custom.getDimension(
-                        R.styleable.DocumentSkewCorrectionView_DSC_strokeWidth, strokeWidth);
-            }
-            if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_android_innerRadius)) {
-                mPointRadius = custom.getDimensionPixelOffset(
-                        R.styleable.DocumentSkewCorrectionView_android_innerRadius, mPointRadius);
-            }
-            if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_DSC_pointRadius)) {
-                mPointRadius = custom.getDimensionPixelOffset(
-                        R.styleable.DocumentSkewCorrectionView_DSC_pointRadius, mPointRadius);
-            }
-            if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_DSC_magnifierOffset)) {
-                mMagnifierOffset = custom.getDimension(
-                        R.styleable.DocumentSkewCorrectionView_DSC_magnifierOffset, mMagnifierOffset);
-            }
-        }
+        Utils.obtainStyledAttributes(
+                custom -> {
+                    mStrokeColor = custom.getColor(
+                            R.styleable.DocumentSkewCorrectionView_android_strokeColor, mStrokeColor);
+                    mFillColor = custom.getColor(
+                            R.styleable.DocumentSkewCorrectionView_android_fillColor, mFillColor);
+                    float strokeWidth = TypedValueCompat.dpToPx(2, metrics);
+                    if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_android_lineHeight)) {
+                        strokeWidth = custom.getDimension(
+                                R.styleable.DocumentSkewCorrectionView_android_lineHeight, strokeWidth);
+                    }
+                    if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_DSC_strokeWidth)) {
+                        strokeWidth = custom.getDimension(
+                                R.styleable.DocumentSkewCorrectionView_DSC_strokeWidth, strokeWidth);
+                    }
+                    if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_android_innerRadius)) {
+                        mPointRadius = custom.getDimensionPixelOffset(
+                                R.styleable.DocumentSkewCorrectionView_android_innerRadius, mPointRadius);
+                    }
+                    if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_DSC_pointRadius)) {
+                        mPointRadius = custom.getDimensionPixelOffset(
+                                R.styleable.DocumentSkewCorrectionView_DSC_pointRadius, mPointRadius);
+                    }
+                    if (custom.hasValue(R.styleable.DocumentSkewCorrectionView_DSC_magnifierOffset)) {
+                        mMagnifierOffset = custom.getDimension(
+                                R.styleable.DocumentSkewCorrectionView_DSC_magnifierOffset, mMagnifierOffset);
+                    }
+                    mPaint.setStrokeWidth(strokeWidth);
+                }, context, attrs,
+                R.styleable.DocumentSkewCorrectionView, defStyleAttr, 0);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             mMagnifier = new Magnifier(this);
         }
-        mPaint.setStrokeWidth(strokeWidth);
         mTouchSlop = mPointRadius + ViewConfiguration.get(getContext()).getScaledTouchSlop();
     }
 
